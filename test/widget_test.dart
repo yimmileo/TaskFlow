@@ -8,7 +8,7 @@ void main() {
     await tester.pumpWidget(const TaskFlowApp());
 
     expect(find.text('TaskFlow'), findsOneWidget);
-    expect(find.text('¡Hola, Escribe tu nombre!'), findsOneWidget);
+    expect(find.text('¡Hola, YIMMI LEONEL BARBERAN MOREIRA!'), findsOneWidget);
     expect(find.text('Tareas pendientes: 3'), findsOneWidget);
     expect(find.text('Completadas hoy: 0 de 5'), findsOneWidget);
     expect(

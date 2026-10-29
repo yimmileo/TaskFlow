@@ -31,7 +31,7 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   static const dailyGoal = 5;
 
-  final String studentName = 'Escribe tu nombre';
+  final String studentName = 'YIMMI LEONEL BARBERAN MOREIRA';
   final String courseName = 'Desarrollo de aplicaciones móviles';
   final String motivationalMessage =
       'Cada pequeño paso te acerca a tus objetivos.';
