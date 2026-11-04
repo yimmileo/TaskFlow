@@ -46,7 +46,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
     setState(() {
       pendingTasks--;
-      completedTasks++;
+      if (completedTasks < dailyGoal) {
+        completedTasks++;
+      }
     });
   }
 

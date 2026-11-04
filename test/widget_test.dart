@@ -62,4 +62,31 @@ void main() {
       isNull,
     );
   });
+
+  testWidgets('does not exceed the daily completion goal', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const TaskFlowApp());
+
+    await tester.tap(find.text('Agregar tarea'));
+    await tester.pump();
+    await tester.tap(find.text('Agregar tarea'));
+    await tester.pump();
+
+    for (var i = 0; i < 5; i++) {
+      await tester.tap(find.text('Completar una tarea'));
+      await tester.pump();
+    }
+
+    expect(find.text('Tareas pendientes: 0'), findsOneWidget);
+    expect(find.text('Completadas hoy: 5 de 5'), findsOneWidget);
+
+    await tester.tap(find.text('Agregar tarea'));
+    await tester.pump();
+    await tester.tap(find.text('Completar una tarea'));
+    await tester.pump();
+
+    expect(find.text('Tareas pendientes: 0'), findsOneWidget);
+    expect(find.text('Completadas hoy: 5 de 5'), findsOneWidget);
+  });
 }
