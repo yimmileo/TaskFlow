@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'task.dart';
+
 void main() {
   runApp(const TaskFlowApp());
 }
@@ -39,22 +41,6 @@ class TaskFlowApp extends StatelessWidget {
   }
 }
 
-class Task {
-  const Task({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.priority,
-    required this.isCompleted,
-  });
-
-  final int id;
-  final String title;
-  final String description;
-  final String priority;
-  final bool isCompleted;
-}
-
 const demoTasks = [
   Task(
     id: 1,
@@ -62,6 +48,7 @@ const demoTasks = [
     description: 'Organizar los requisitos del proyecto',
     priority: 'Alta',
     isCompleted: true,
+    userId: 1,
   ),
   Task(
     id: 2,
@@ -69,6 +56,7 @@ const demoTasks = [
     description: 'Definir la estructura visual de cada tarjeta',
     priority: 'Alta',
     isCompleted: false,
+    userId: 1,
   ),
   Task(
     id: 3,
@@ -76,6 +64,7 @@ const demoTasks = [
     description: 'Mostrar tareas con ListView.builder',
     priority: 'Alta',
     isCompleted: false,
+    userId: 1,
   ),
   Task(
     id: 4,
@@ -83,6 +72,7 @@ const demoTasks = [
     description: 'Verificar tareas pendientes y completadas',
     priority: 'Media',
     isCompleted: false,
+    userId: 1,
   ),
   Task(
     id: 5,
@@ -90,6 +80,7 @@ const demoTasks = [
     description: 'Capturar la lista y revisar el código',
     priority: 'Baja',
     isCompleted: false,
+    userId: 1,
   ),
 ];
 
@@ -163,6 +154,8 @@ class TaskDetailScreen extends StatelessWidget {
           Chip(label: Text('Prioridad: ${task.priority}')),
           const SizedBox(height: 12),
           Text(task.isCompleted ? 'Estado: completada' : 'Estado: pendiente'),
+          const SizedBox(height: 12),
+          Text('Usuario: ${task.userId}'),
           const SizedBox(height: 24),
           FilledButton.tonalIcon(
             onPressed: () => context.pop(),

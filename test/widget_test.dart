@@ -17,6 +17,7 @@ void main() {
     expect(find.text('Mis tareas'), findsOneWidget);
     expect(find.byType(TaskCard), findsNWidgets(demoTasks.length));
     expect(find.text('Definir las funciones de TaskFlow'), findsOneWidget);
+    expect(find.text('Usuario: 1'), findsNothing);
     expect(
       find.text('Alta · Organizar los requisitos del proyecto'),
       findsOneWidget,
@@ -63,6 +64,7 @@ void main() {
     );
     expect(find.text('Prioridad: Alta'), findsOneWidget);
     expect(find.text('Estado: pendiente'), findsOneWidget);
+    expect(find.text('Usuario: 1'), findsOneWidget);
 
     await tester.binding.handlePopRoute();
     await tester.pumpAndSettle();
