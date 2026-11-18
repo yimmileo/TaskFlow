@@ -45,8 +45,24 @@ saber cuáles están pendientes.
 `priority` (Alta, Media o Baja), `isCompleted` (booleano) y `userId`
 (entero que identifica al usuario de prueba).
 
-La clase compartida se encuentra en `lib/task.dart` e incluye un constructor
-desde JSON con `Task.fromJson`.
+La clase compartida se encuentra en
+`lib/features/tasks/domain/task.dart`, con constructor desde JSON (`fromJson`)
+y `copyWith` para crear una versión actualizada de una tarea.
+
+### Arquitectura
+
+TaskFlow separa responsabilidades con MVVM:
+
+- **Model:** `Task` representa los datos de una tarea.
+- **View:** la lista y el detalle presentan las tareas y reciben acciones.
+- **ViewModel:** `TasksViewModel` expone las tareas y alterna su estado.
+- **Repository:** `TaskRepository` define el contrato y
+  `LocalTaskRepository` mantiene los datos de ejemplo en memoria.
+- **Provider:** comparte el mismo ViewModel entre la lista y el detalle.
+
+Al cambiar el estado desde el detalle, el repositorio local actualiza la tarea
+y el ViewModel notifica a ambas pantallas. Los cambios se pierden al reiniciar
+la aplicación; todavía no hay persistencia en disco ni solicitudes a la API.
 
 ### Pantallas previstas
 
