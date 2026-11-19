@@ -94,3 +94,23 @@ ejemplo **“Sin descripción (API)”** y **“Sin prioridad (API)”**.
 Completar o reabrir una tarea solo cambia la copia en memoria de TaskFlow:
 JSONPlaceholder no persiste esta modificación. Las operaciones de crear,
 editar y eliminar quedan para una API posterior.
+
+### Estados de carga de la lista
+
+La lista distingue entre carga, datos, respuesta vacía y error. Durante una
+petición muestra un indicador; si la API devuelve una lista vacía, muestra
+“Todavía no hay tareas para mostrar” y el botón **Actualizar**. Si la petición
+falla, muestra un mensaje y el botón **Reintentar**. Con tareas disponibles se
+puede actualizar desde el icono de la barra o deslizando la lista hacia abajo.
+
+Para comprobar los estados manualmente:
+
+- **Datos y carga:** inicia la app con internet y observa el indicador antes de
+  que aparezcan las tareas de `userId=2`.
+- **Vacío:** cambia temporalmente `TaskApiService.userId` a `9999`, reinicia la
+  app y comprueba el mensaje y el botón **Actualizar**; luego restaura `2`.
+- **Error y recuperación:** sin conexión, pulsa **Actualizar**; al volver a
+  conectarte, pulsa **Reintentar** y confirma que la lista aparece sin reiniciar.
+
+Las pruebas de widgets reproducen las respuestas pendientes, vacías y fallidas
+con un repositorio controlado; así no dependen de la conexión a internet.

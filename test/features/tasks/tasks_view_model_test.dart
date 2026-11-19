@@ -55,9 +55,13 @@ void main() {
 
     final loading = viewModel.loadTasks();
     expect(viewModel.isLoading, isTrue);
+    final duplicateLoading = viewModel.loadTasks();
+    expect(repository.getTasksCalls, 1);
+    await duplicateLoading;
     await loading;
 
     expect(viewModel.isLoading, isFalse);
+    expect(viewModel.isEmpty, isFalse);
     expect(viewModel.tasks, [task]);
     expect(viewModel.findTask(8), task);
 
@@ -78,5 +82,16 @@ void main() {
     expect(viewModel.isLoading, isFalse);
     expect(viewModel.errorMessage, 'No se pudieron cargar las tareas.');
     expect(viewModel.tasks, isEmpty);
+    expect(viewModel.isEmpty, isFalse);
+  });
+
+  test('a successful empty response is distinct from an error', () async {
+    final viewModel = TasksViewModel(_FakeTaskRepository([]));
+
+    await viewModel.loadTasks();
+
+    expect(viewModel.isLoading, isFalse);
+    expect(viewModel.errorMessage, isNull);
+    expect(viewModel.isEmpty, isTrue);
   });
 }
