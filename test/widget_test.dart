@@ -7,7 +7,7 @@ import 'package:taskflow/features/tasks/presentation/tasks_view_model.dart';
 
 Widget createTestApp() {
   return ChangeNotifierProvider(
-    create: (_) => TasksViewModel(LocalTaskRepository()),
+    create: (_) => TasksViewModel(LocalTaskRepository())..loadTasks(),
     child: const TaskFlowApp(),
   );
 }
@@ -25,10 +25,7 @@ void main() {
     expect(find.text('Mis tareas'), findsOneWidget);
     expect(find.byType(Card), findsNWidgets(5));
     expect(find.text('Definir las funciones de TaskFlow'), findsOneWidget);
-    expect(
-      find.text('Alta · Organizar los requisitos del proyecto'),
-      findsOneWidget,
-    );
+    expect(find.text('Prioridad: Alta'), findsNWidgets(3));
     expect(find.byIcon(Icons.check_circle), findsOneWidget);
   });
 

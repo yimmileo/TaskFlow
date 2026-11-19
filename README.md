@@ -1,8 +1,8 @@
 # taskflow
 
-TaskFlow es una aplicación Flutter para consultar y organizar tareas académicas
-con datos locales. Permite navegar desde un listado hacia el detalle de cada
-tarea y muestra su prioridad, estado y usuario.
+TaskFlow es una aplicación Flutter para consultar y organizar tareas académicas.
+Carga tareas de una API REST, permite navegar desde el listado hacia su detalle
+y conserva en memoria los cambios de estado mientras la aplicación está abierta.
 
 ## Ejecutar el proyecto
 
@@ -55,14 +55,16 @@ TaskFlow separa responsabilidades con MVVM:
 
 - **Model:** `Task` representa los datos de una tarea.
 - **View:** la lista y el detalle presentan las tareas y reciben acciones.
-- **ViewModel:** `TasksViewModel` expone las tareas y alterna su estado.
+- **ViewModel:** `TasksViewModel` carga las tareas de forma asíncrona, expone
+  estados de carga y error, y alterna el estado de una tarea.
 - **Repository:** `TaskRepository` define el contrato y
-  `LocalTaskRepository` mantiene los datos de ejemplo en memoria.
+  `RemoteTaskRepository` obtiene datos del servicio; `LocalTaskRepository`
+  conserva las cinco tareas locales para pruebas y uso alternativo.
 - **Provider:** comparte el mismo ViewModel entre la lista y el detalle.
 
-Al cambiar el estado desde el detalle, el repositorio local actualiza la tarea
-y el ViewModel notifica a ambas pantallas. Los cambios se pierden al reiniciar
-la aplicación; todavía no hay persistencia en disco ni solicitudes a la API.
+El recorrido remoto es Service → Repository → ViewModel → Views. Al cambiar el
+estado desde el detalle, la copia en memoria se actualiza y ambas pantallas se
+notifican. Ese cambio no se guarda en el servidor y se pierde al reiniciar.
 
 ### Pantallas previstas
 
@@ -77,15 +79,18 @@ la aplicación; todavía no hay persistencia en disco ni solicitudes a la API.
 - La prioridad debe limitarse a Alta, Media o Baja.
 - Los datos locales deben permitir probar navegación sin conexión.
 
-### Contrato de API previsto
+### API de tareas
 
 ```text
-GET    /tasks        listar tareas
-GET    /tasks/:id    consultar detalle
-POST   /tasks        crear tarea
-PATCH  /tasks/:id    actualizar tarea
-DELETE /tasks/:id    eliminar tarea
+GET https://jsonplaceholder.typicode.com/todos?userId=2
 ```
 
-Estos endpoints describen el alcance futuro. Esta versión todavía usa datos
-locales y no realiza solicitudes HTTP.
+TaskFlow utiliza Dio por HTTPS para consultar los todos del usuario `2`.
+La respuesta proporciona `userId`, `id`, `title` y `completed`; el modelo los
+convierte a sus tipos Dart, usando `completed` como `isCompleted`. Esta API no
+incluye `description` ni `priority`, así que la app muestra los valores de
+ejemplo **“Sin descripción (API)”** y **“Sin prioridad (API)”**.
+
+Completar o reabrir una tarea solo cambia la copia en memoria de TaskFlow:
+JSONPlaceholder no persiste esta modificación. Las operaciones de crear,
+editar y eliminar quedan para una API posterior.
